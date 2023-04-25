@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\InviteController;
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,8 +21,11 @@ Route::get('/', function () {
 });
 Route::get('/admin_login',[AdminController::class ,'login'])->middleware('notadmin');;
 Route::post('/adminaccess',[AdminController::class ,'adminaccess']);
-Route::middleware('admin')->group(function(){
+Route::get('accept_invite/{token}',[InviteController::class ,'accept'])->name('accept');
+Route::post('/valider_invitation',[EmployeeController::class ,'valider_invitation'])->name('valider_invitation');
 
+
+Route::middleware('admin')->group(function(){
     Route::get('/admin_logout',[AdminController::class ,'logout']);
     Route::get('/admin',[AdminController::class ,'dashboard']);
     Route::post('/saveentreprise',[EntrepriseController::class ,'saveentreprise']);

@@ -9,10 +9,7 @@ class History extends Model
 {
     use HasFactory;
 
-    public function employee()
-    {
-        return $this->belongsTo(Employee::class);
-    }
+   
     public function admin()
     {
         return $this->belongsTo(Admin::class);

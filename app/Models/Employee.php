@@ -17,7 +17,5 @@ class Employee extends Model
     {
         return $this->belongsTo(Admin::class);
     }
-    public function history(){
-        return $this->hasMany(History::class);
-    }
+    
 }

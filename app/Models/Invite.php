@@ -11,6 +11,7 @@ class Invite extends Model
     protected $fillable = [
         'name',
         'email',
+        'entreprise_id',
         'token',
         'admin_id'
     ];

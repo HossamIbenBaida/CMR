@@ -62,6 +62,14 @@
                     {{Form::label('', 'Nom de l\'employée' ,['for'=>'exampleInputEmail1'])}}
                     {{Form::text('name', '' ,['class'=>'form-control' ,'id'=>'exampleInputEmail1', 'placeholder'=>'Nom de l\'employée'])}}
                   </div>
+                  {{Form::label('', 'Entreprise' )}}
+                   {{--{{Form::select('Entreprise' , $entreprises , null ,['placeholder'=>'Select entreprise' , 'class'=>'form-control select2'])}} --}} 
+                  <select class="form-control select2" name="entreprise_id">
+                    <option disabled selected value="">Please select one</option>
+                    @foreach($entreprises as $id => $name)
+                      <option name="entreprise_id" value="{{ $id }}">{{ $name }}</option>
+                    @endforeach
+                  </select>   
                   <div class="form-group">
                     {{Form::label('', 'Email' ,['for'=>'exampleInputEmail1'])}}
                     {{Form::text('email', '' ,['class'=>'form-control' ,'id'=>'exampleInputEmail1', 'placeholder'=>'email'])}}

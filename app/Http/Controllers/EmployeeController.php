@@ -59,8 +59,8 @@ class EmployeeController extends Controller
         $employee = Employee::where('email', $request->input('email'))->first();
         if($employee){
         if(Hash::check($request->input('password') , $employee->password)){
-        Session::put('employee' , $employee);
-        Cache::put('employee', $employee, 600);
+        Session::put('employee' , $employee ,6000);
+        Cache::put('employee', $employee, 6000);
         return redirect('/profile/'.$employee->id);
         }else{
         return back()->with('status' , 'incorrect email ou mot de passe');
@@ -75,8 +75,14 @@ class EmployeeController extends Controller
                 return view('employee.login');
          }
          public function profile($id){
+            
             $employee = Employee::with('entreprise')->find($id);
-            return view('employee.profile')->with('employee', $employee);
+            if($employee->id==Session::get('employee')->id){
+                return view('employee.profile')->with('employee', $employee);
+            }
+
+            return redirect('/404');
+
         }
         public function entreprise($id){
             $employee = Cache::get('employee');
@@ -116,8 +122,8 @@ class EmployeeController extends Controller
             $employee->date_de_naissance = $request->input('date_de_naissance');
             $employee->password = bcrypt($request->input('password'));
             $employee->update();
-            Session::put('employee' , $employee);
-            Cache::put('employee' , $employee);
+            Session::update('employee' , $employee);
+            Cache::update('employee' , $employee);
             return back()->with('status' , 'Mise a jour enregistré');
             }
             return back()->with('status' , 'les mots de passe ne correspond pas');

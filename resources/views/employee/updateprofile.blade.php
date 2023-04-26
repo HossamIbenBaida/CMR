@@ -7,8 +7,10 @@
 
     <!-- Custom Css -->
     <link rel="stylesheet" href="/client/style2.css">
+    <link rel="stylesheet" href="/client/form.css">
     <!-- FontAwesome 5 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+  
 </head>
 <body>
     <!-- Navbar top -->
@@ -62,13 +64,8 @@
 
     <!-- Main -->
     <div class="main">
-        <h2>IDENTITY</h2>
-        <div class="card">
-            <div class="card-body">
-                <i class="fa fa-pen fa-xs edit"></i>
-                <div class="form-bg">
-
-                    <h3> Validater l'invitation </h3>
+                <div class="form-style-8">
+                    <h3> Mise à jour de profile</h3>
                     @if (count($errors)>0)
                     <div class="alert alert-danger">
                         @foreach ($errors->all() as $error)
@@ -94,14 +91,16 @@
                         <input placeholder="Numéro de telephone" value={{$employee->telephone}} name="telephone" type="text">
                         <input placeholder="Adresse" maxlength="50" value={{$employee->adresse}} name="adresse" type="text">
                         <input placeholder="Date de naissence" value={{$employee->date_de_naissance}} maxlength="50" name="date_de_naissance" type="date">
-                        <button  type="submit" >Update</button>
+                        <input  type="submit" value="Update" />
                     </form>
-                </div>
-                
-            </div>
-            
-        </div>
     </div>
     <!-- End -->
+    <script type="text/javascript">
+        //auto expand textarea
+        function adjust_textarea(h) {
+            h.style.height = "20px";
+            h.style.height = (h.scrollHeight)+"px";
+        }
+        </script>
 </body>
 </html>

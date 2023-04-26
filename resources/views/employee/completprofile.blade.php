@@ -31,7 +31,7 @@
             <input type="hidden" name="admin_id" value="{{$admin_id}}">
             <input type="hidden" name="entreprise_id" value="{{$entreprise_id}}">
             <input placeholder="Nom" value="{{$nom}}" maxlength="50" name="name" type="text" readonly>
-    <input placeholder="E-mail" value="{{$email}}" name="email" type="text" readonly>
+            <input placeholder="E-mail" value="{{$email}}" name="email" type="text" readonly>
             <input placeholder="Mot de passe"  type="password" name="password">
             <input placeholder="Confirmez votre Mot de passe"  type="password" name="confirm_password">
             <input placeholder="Numéro de telephone" name="telephone" type="text">

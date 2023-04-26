@@ -15,7 +15,7 @@
     <!-- Navbar top -->
     <div class="navbar-top">
         <div class="title">
-            <h1>Profile</h1>
+            <h1>Entreprise Informations</h1>
         </div>
 
         <!-- Navbar -->
@@ -36,7 +36,7 @@
             <img src="https://imdezcode.files.wordpress.com/2020/02/imdezcode-logo.png" alt="" width="100" height="100">
 
             <div class="name">
-                {{$employee->name}}
+                {{$entreprise->name}}
             </div>
             <div class="job">
                 Web Developer
@@ -46,11 +46,11 @@
         <div class="sidenav-url">
             <div class="url">
                 
-                <a href="/profile/{{Session::get('employee')->id}}" class="active">Profile</a>
+                <a href="/profile/{{Session::get('employee')->id}}" class="">Profile</a>
                 <hr align="center">
             </div>
             <div class="url">
-                <a href="/entreprise/{{$employee->entreprise->id}}" class="">{{$employee->entreprise->name}}</a>
+                <a href="/entreprise/{{$entreprise->id}}" class="active">{{$entreprise->name}}</a>
                 <hr align="center">
             </div>
             <div class="url">
@@ -71,29 +71,22 @@
                     <tbody>
                         <tr>
                             <td>Nom</td>
-                            <td>:</td>
-                            <td>{{$employee->name}}</td>
+                            <td> : {{$entreprise->name}}</td>
                         </tr>
                         <tr>
-                            <td>Email</td>
-                            <td>:</td>
-                            <td>{{$employee->email}}</td>
+                            <td>Description</td>
+                            <td> : {{$entreprise->description}}</td>
                         </tr>
+                        <td>Employees</td>
+                        <td>➙</td>
+                        @foreach($employees as $employee) 
                         <tr>
-                            <td>Adresse</td>
-                            <td>:</td>
+                            <td>  {{$employee->name}} </td>
+                             <td>  {{$employee->email}}  </td>
                             <td>{{$employee->adresse}}</td>
                         </tr>
-                        <tr>
-                            <td>date de naissanace </td>
-                            <td>:</td>
-                            <td>{{$employee->date_de_naissance}}</td>
-                        </tr>
-                        <tr>
-                            <td>Entreprise</td>
-                            <td>:</td>
-                            <td>{{$employee->entreprise->name}}</td>
-                        </tr>
+                         @endforeach
+                        
                     </tbody>
                 </table>
                 

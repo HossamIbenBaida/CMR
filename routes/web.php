@@ -18,14 +18,23 @@ use App\Http\Controllers\HistoryController;
 InviteController*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('signin');
 });
-Route::get('/admin_login',[AdminController::class ,'login'])->middleware('notadmin');;
+
+
+Route::get('/signout',[EmployeeController::class ,'signout'])->name('signout');
+Route::middleware('employee')->group(function(){
+    Route::get('/entreprise/{id}',[EmployeeController::class ,'entreprise'])->name('entreprise');
+    Route::get('/profile/{id}',[EmployeeController::class ,'profile'])->name('profile');
+    Route::get('/Editprofile/{id}',[EmployeeController::class ,'Editprofile'])->name('Editprofile');
+    Route::post('/updateprofile',[EmployeeController::class ,'updateprofile']);
+});
+
+Route::get('/admin_login',[AdminController::class ,'login'])->middleware('notadmin');
 Route::post('/adminaccess',[AdminController::class ,'adminaccess']);
 Route::get('accept_invite/{token}',[InviteController::class ,'accept'])->name('accept');
 Route::post('/valider_invitation',[EmployeeController::class ,'valider_invitation'])->name('valider_invitation');
-Route::get('/signin',[EmployeeController::class ,'signin'])->name('signin');
-Route::get('/profile',[EmployeeController::class ,'profile'])->name('profile');
+Route::get('/signin',[EmployeeController::class ,'signin'])->middleware('NotEmployee');
 Route::post('/access_account',[EmployeeController::class ,'access_account']);
 
 Route::middleware('admin')->group(function(){

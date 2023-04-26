@@ -122,8 +122,8 @@ class EmployeeController extends Controller
             $employee->date_de_naissance = $request->input('date_de_naissance');
             $employee->password = bcrypt($request->input('password'));
             $employee->update();
-            Session::update('employee' , $employee);
-            Cache::update('employee' , $employee);
+            Session::put('employee' , $employee);
+            Cache::put('employee' , $employee);
             return back()->with('status' , 'Mise a jour enregistré');
             }
             return back()->with('status' , 'les mots de passe ne correspond pas');

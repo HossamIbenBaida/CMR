@@ -75,9 +75,17 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('/categories')}}" class="nav-link {{request()->is('categories') ? 'active' : ''}} ">
+                <a href="{{url('/employees_list')}}" class="nav-link {{request()->is('employees_list') ? 'active' : ''}} ">
                   <i class="far fa-file nav-icon"></i>
                   <p>List des employées</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('/invitation_gestion')}}" class="nav-link {{request()->is('invitation_gestion') ? 'active' : ''}} ">
+                  <i class="far fa-file nav-icon"></i>
+                  <p>Gestion des invitaion</p>
                 </a>
               </li>
             </ul>

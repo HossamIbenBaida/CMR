@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Invite;
 use App\Models\History;
+use App\Models\Admin;
 use App\Models\Entreprise;
 use App\Mail\InviteCreated;
 use App\Models\Employee;
@@ -43,7 +44,13 @@ public function process(Request $request)
         $invite->token =$token;
         $invite->save(); 
     // send the email
-  
+         $history = new History();
+         $history->admin_id = Session::get('admin')->id ;
+         $entreprise = Entreprise::where('id', $invite->entreprise_id)->first();
+         $admin_name = Session::get('admin')->name ;
+         $history->employee_email = $invite->email;
+         $history->description = $admin_name." invited ".$invite->name." to join ".$entreprise->name;
+         $history->save();
     try {
         Mail::to($request->get('email'))->send(new InviteCreated($invite));
     } catch (\Exception $e) {
@@ -52,7 +59,7 @@ public function process(Request $request)
  
     // redirect back where we came from
     return redirect()
-        ->back();
+        ->back()->with('status', 'invitation envoyée');
 
 }
 
@@ -65,16 +72,14 @@ public function accept($token)
         abort(404);
     }
     $history = new History();
-
+    $admin =Admin::find($invite->admin_id);
+    $entreprise = Entreprise::find($invite->entreprise_id);
     // create the user with the details from the invite
-   $admin_name = Session::get('admin')->name ;
-   $history->admin_id = Session::get('admin')->id ;
-   $history->employee_email = $invite->email;
-    $entreprise = Entreprise::where('id', $invite->entreprise_id)->first();
-    $history->description = $admin_name." invited ".$invite->name." to join ".$entreprise->name;
-   if(!History::where('employee_email',$invite->email)->first()){
-    $history->save();
-   }
+    /*$history=History::where('employee_email',$invite->email)->where('admin_id',$invite->admin_id)->first();
+   if($history){
+    $history->description = " Employé ".$invite->name." a accéder au lien de l'invitation de ".$admin->name." à rejoindre ".$entreprise->name;
+    $history->update();}*/
+   
     
     // delete the invite so it can't be used again
   // $invite->delete();
@@ -88,6 +93,21 @@ public function accept($token)
         'nom' => $invite->name
     ]);
 }
+
+    public function invitation_gestion(){
+        $invitations = Invite::with('admin')->with('entreprise')->get();
+        return view('admin.invitation_gestion')->with('invitations', $invitations);
+    }
+
+    public function delete_invitation($id){
+        $invitation = Invite::find($id);  
+        $admin = Session::get('admin');
+        $history = History::where('employee_email' , $invitation->email)->get()->first();      
+        $history->description = "l'invitation a été supprimé par ".$admin->name ;
+        $history->update();
+        $invitation->delete();
+        return back()->with('status', 'invitation deleted');
+    }
 
 }
 

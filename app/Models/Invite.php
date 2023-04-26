@@ -19,4 +19,8 @@ class Invite extends Model
         
         return $this->belongsTo(Admin::class);
     }
+    public function entreprise(){
+        
+        return $this->belongsTo(Entreprise::class);
+    }
 }

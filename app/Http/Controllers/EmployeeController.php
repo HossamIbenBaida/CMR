@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\Employee;
 use App\Models\History;
 use App\Models\Admin;
 use App\Models\Entreprise;
+use App\Models\Invite;
 use Illuminate\Support\Facades\Session;
 class EmployeeController extends Controller
 {
@@ -30,11 +32,46 @@ class EmployeeController extends Controller
             $entreprise = Entreprise::where('id', $Employee->entreprise_id )->first();
             $history->description = $Employee->name." a validé l'invitation de ".$admin->name." à rejouindre ". $entreprise->name ;
             $history->update();
+            $invitation = Invite::where('admin_id',$Employee->admin_id)->where('email', $Employee->email)->first();
+            $invitation->validated=true;
+            $invitation->update();
             return back()->with('status' , 'invitation has been validated');
+    
         }
     
     return back()->with('error' , 'passwords are not matching');
 
     }
-        
+    public function employees_list(){
+        $employees = Employee::with('admin')->with('entreprise')->get();
+        return view('admin.employees_list')->with('employees' , $employees);
+    }
+    public function signin(){
+        return view('employee.login');
+    }
+    public function access_account(Request $request){
+        $this->validate($request , ['email'=> 'required' ,
+        'password'=>'required']);
+
+        $employee = Employee::where('email', $request->input('email'))->first();
+        if($employee){
+        if(Hash::check($request->input('password') , $employee->password)){
+        Session::put('employee' , $employee);
+        return redirect('/profile')->with('employee',$employee);
+        }else{
+        return back()->with('status' , 'incorrect email ou mot de passe');
+        }
+
+        }else{
+
+        return back()->with('status' , 'informations incorrect !');
+        }
+
+                
+                return view('employee.login');
+         }
+         public function profile(){
+            $employee = Session::get('employee');
+            return view('employee.profile')->with('employee', $employee);
+        }
 }

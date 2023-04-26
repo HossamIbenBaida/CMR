@@ -8,12 +8,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Liste Des Entreprises</h1>
+            <h1>Liste Des Employees</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Entreprises</li>
+              <li class="breadcrumb-item active">employees</li>
             </ol>
           </div>
         </div>
@@ -27,16 +27,11 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Liste Des Entreprises</h3>
+                <h3 class="card-title">Liste Des Employees</h3>
               </div>
               @if(Session::has('status'))
-                <div x-data="{show: true}" x-init="setTimeout(()=> show= false , 3000)" class="alert alert-success">
+                <div class="alert alert-success">
                   {{Session::get('status')}}
-                </div>
-                @endif
-                @if(Session::has('error'))
-                <div x-data="{show: true}" x-init="setTimeout(()=> show= false , 3000)" class="alert alert-danger">
-                  {{Session::get('error')}}
                 </div>
                 @endif
               <!-- /.card-header -->
@@ -45,40 +40,43 @@
                   <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Ajouté par</th>
+                    <th>Nom De L'employee</th>
+                    <th>Email</th>
+                    <th>Le nom d'admin</th>
+                    <th>Entreprise</th>
                     <th>Actions</th>
                   </tr>
                   </thead>
                   <tbody>
                   
-                    @foreach ($entreprises as $entreprise)
-                        
-                            <tr>
-                            <td>{{$entreprise->id}}</td>
-                            <td>{{$entreprise->name}}</td>
-                            <td>{{$entreprise->description}}</td>
-                            <td>{{ $entreprise->admin->name }}</td>
-                            <td>
-                            <a href="{{url('/delete_entreprise/'.$entreprise->id)}}" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
-                            {{--{!!Form::open(['action'=>'App\Http\Controllers\CategoryController@deletecategory' , 'method'=>'DELETE'])!!}
-                            {{Form::hidden('id',$category->id)}}  
-                            {{Form::submit('Delete' ,['class'=>'btn btn-danger','id'=>'delete' ])}}
-                            {!!Form::close()!!}--}}
-                            <a href="{{url('/edit_entreprise/'.$entreprise->id)}}" class="btn btn-primary"><i class="nav-icon fas fa-edit"></i></a>
-
-                            </td> 
-                        </tr>
-    
+                    @foreach ($invitations as $invitation)
+                    <tr>
+                    <td>{{$invitation->id}}</td>
+                    <td>{{$invitation->name}}</td>
+                    <td>{{$invitation->email}}</td>
+                    <td>{{$invitation->admin->name}}</td>
+                    <td>{{$invitation->entreprise->name}}</td>
+                    <td>
+                      @if(!$invitation->validated)
+                      <a href="{{url('/delete_invitation/'.$invitation->id)}}" id="delete" class="btn btn-danger" ><i class="nav-icon fas fa-trash"></i></a>
+                      @else
+                      Invitation validé
+                      @endif
+                      {{--{!!Form::open(['action'=>'App\Http\Controllers\CategoryController@deletecategory' , 'method'=>'DELETE'])!!}
+                      {{Form::hidden('id',$category->id)}}  
+                      {{Form::submit('Delete' ,['class'=>'btn btn-danger','id'=>'delete' ])}}
+                      {!!Form::close()!!}--}}
+                    </td> 
+                  </tr>
                     @endforeach
                   </tbody>
                   <tfoot>
                   <tr>
                     <th>Id</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Ajouté par</th>
+                    <th>Nom De L'employee</th>
+                    <th>Email</th>
+                    <th>Le nom d'admin</th>
+                    <th>Entreprise</th>
                     <th>Actions</th>
                   </tr>
                   </tfoot>

@@ -17,6 +17,10 @@ class Entreprise extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+    public function invite()
+    {
+        return $this->hasMany(Invite::class);
+    }
 
 }
 
